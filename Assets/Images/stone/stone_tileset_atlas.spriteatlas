@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: stone_tileset_atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 7976a47bda525124888208ae18547663, type: 3}
+    - {fileID: 2800000, guid: e12c1e9f54ec4f642ae934cf1e9b6b2a, type: 3}
+    - {fileID: 2800000, guid: ee2ca6c735c39a54bbcb4f41c7cfd13d, type: 3}
+    - {fileID: 2800000, guid: aa34ed01b72905941bacd6a04f412a7a, type: 3}
+    - {fileID: 2800000, guid: 4caa461048e4bbb418c14f877d500bb3, type: 3}
+    - {fileID: 2800000, guid: d83dacce87cc9f043bb75bcf0bd9f603, type: 3}
+    - {fileID: 2800000, guid: df705a513ec252d4eb34f3078d046cf2, type: 3}
+    - {fileID: 2800000, guid: 72a7269bdb98c524d84105d18c12206a, type: 3}
+    - {fileID: 2800000, guid: 2ee67c23c6842c040891d2dc040c1ad8, type: 3}
+    - {fileID: 2800000, guid: e61df710d986fee4499122b24176aafd, type: 3}
+    - {fileID: 2800000, guid: 8bd7d96c30663e4458dbb34236c46e9f, type: 3}
+    - {fileID: 2800000, guid: 8b5bd37f25d49634eab1930452e35118, type: 3}
+    - {fileID: 2800000, guid: f12b5f27ecce8fa40ae89c53f99ed44b, type: 3}
+    - {fileID: 2800000, guid: 613a387e601997b4aab89d42fa88c1da, type: 3}
+    - {fileID: 2800000, guid: ddbead04049d10d4cab9327d8de32515, type: 3}
+    - {fileID: 2800000, guid: d64d23bf3105bd345b71373cd9107e0a, type: 3}
+    - {fileID: 2800000, guid: 3f357feb1d438cb4bbfd4b3a646ed5aa, type: 3}
+    - {fileID: 2800000, guid: 402214f71c8a4af43896b1c026a2a7ae, type: 3}
+    - {fileID: 2800000, guid: af026c232c75e2e49b2a62fd4799255e, type: 3}
+    - {fileID: 2800000, guid: 06c519cd3ac7d204aa22a6c72becd58a, type: 3}
+    - {fileID: 2800000, guid: 50c4188830a837c459a4a294cf72223d, type: 3}
+    - {fileID: 2800000, guid: 3528286e1162b5443a29f4a7d8e7d6ec, type: 3}
+    - {fileID: 2800000, guid: 10ca560639a5894429ac3b0221e0154e, type: 3}
+    - {fileID: 2800000, guid: f2ce5c599333f324aa7c61450ff44e45, type: 3}
+    - {fileID: 2800000, guid: 3fd2cdb1da8cf824a8fe5c23be955149, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 4caa461048e4bbb418c14f877d500bb3, type: 3}
+  - {fileID: 21300000, guid: e61df710d986fee4499122b24176aafd, type: 3}
+  - {fileID: 21300000, guid: aa34ed01b72905941bacd6a04f412a7a, type: 3}
+  - {fileID: 21300000, guid: df705a513ec252d4eb34f3078d046cf2, type: 3}
+  - {fileID: 21300000, guid: 3fd2cdb1da8cf824a8fe5c23be955149, type: 3}
+  - {fileID: 21300000, guid: af026c232c75e2e49b2a62fd4799255e, type: 3}
+  - {fileID: 21300000, guid: 2ee67c23c6842c040891d2dc040c1ad8, type: 3}
+  - {fileID: 21300000, guid: ddbead04049d10d4cab9327d8de32515, type: 3}
+  - {fileID: 21300000, guid: 10ca560639a5894429ac3b0221e0154e, type: 3}
+  - {fileID: 21300000, guid: f12b5f27ecce8fa40ae89c53f99ed44b, type: 3}
+  - {fileID: 21300000, guid: ee2ca6c735c39a54bbcb4f41c7cfd13d, type: 3}
+  - {fileID: 21300000, guid: 402214f71c8a4af43896b1c026a2a7ae, type: 3}
+  - {fileID: 21300000, guid: 50c4188830a837c459a4a294cf72223d, type: 3}
+  - {fileID: 21300000, guid: f2ce5c599333f324aa7c61450ff44e45, type: 3}
+  - {fileID: 21300000, guid: 7976a47bda525124888208ae18547663, type: 3}
+  - {fileID: 21300000, guid: 72a7269bdb98c524d84105d18c12206a, type: 3}
+  - {fileID: 21300000, guid: 3f357feb1d438cb4bbfd4b3a646ed5aa, type: 3}
+  - {fileID: 21300000, guid: 8bd7d96c30663e4458dbb34236c46e9f, type: 3}
+  - {fileID: 21300000, guid: 06c519cd3ac7d204aa22a6c72becd58a, type: 3}
+  - {fileID: 21300000, guid: 3528286e1162b5443a29f4a7d8e7d6ec, type: 3}
+  - {fileID: 21300000, guid: 613a387e601997b4aab89d42fa88c1da, type: 3}
+  - {fileID: 21300000, guid: d83dacce87cc9f043bb75bcf0bd9f603, type: 3}
+  - {fileID: 21300000, guid: 8b5bd37f25d49634eab1930452e35118, type: 3}
+  - {fileID: 21300000, guid: e12c1e9f54ec4f642ae934cf1e9b6b2a, type: 3}
+  - {fileID: 21300000, guid: d64d23bf3105bd345b71373cd9107e0a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - stone_5
+  - stone_10
+  - stone_4
+  - stone_7
+  - stone_background_2
+  - stone_19
+  - stone_9
+  - stone_15
+  - stone_23
+  - stone_13
+  - stone_3
+  - stone_18
+  - stone_21
+  - stone_background_1
+  - stone_1
+  - stone_8
+  - stone_17
+  - stone_11
+  - stone_20
+  - stone_22
+  - stone_14
+  - stone_6
+  - stone_12
+  - stone_2
+  - stone_16
+  m_RenderDataMap: {}
+  m_Tag: stone_tileset_atlas
+  m_IsVariant: 0
