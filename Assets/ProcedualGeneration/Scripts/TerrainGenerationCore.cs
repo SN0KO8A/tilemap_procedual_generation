@@ -8,10 +8,11 @@ public class TerrainGenerationCore : Generator
 {
     [Header("Terrain Settings")]
     [SerializeField] private Vector2Int _terrainOffset;
-    [SerializeField, Range(35, 100)] float _fillAmount;
+    [SerializeField, Range(0, 100)] float _fillAmount;
     [Tooltip("More iterations - more quality, but more time for generation")]
     [SerializeField] private int _iterations = 3;
     [SerializeField] private bool _edgesAreWalls = true;
+    [SerializeField] private bool _createWay = true;
     [SerializeField] private int _heightOfWay = 3;
 
     private int startY;
@@ -22,16 +23,18 @@ public class TerrainGenerationCore : Generator
         base.Generate(ref map, rand);
 
         InitRandomMap();
-        CreateWay();
+
+        if(_createWay)
+            CreateWay();
+
         MooreAlgorithm();
-        SetStartAndEndPosition();
     }
 
     private void InitRandomMap()
     {
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < _width + 1; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < _height + 1; y++)
             {
                 if ((x >= _terrainOffset.x && x < _width - _terrainOffset.x) &&
                     (y >= _terrainOffset.y && y < _height - _terrainOffset.y))
@@ -123,13 +126,5 @@ public class TerrainGenerationCore : Generator
                 }
             }
         }
-    }
-
-    private void SetStartAndEndPosition()
-    {
-        //Debug.Log($"Start in {_terrainOffset.x + 5} and {startY + _heightOfWay / 2}");
-        //Debug.Log($"End in {_width - _terrainOffset.x - 5} and {newY + _heightOfWay / 2}");
-        map[_terrainOffset.x + 5, startY + _heightOfWay / 2] = GenerationCore.Instance.startPointCode;
-        map[_width - _terrainOffset.x - 5, newY + _heightOfWay / 2] = GenerationCore.Instance.endPointCode;
     }
 }

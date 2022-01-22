@@ -22,11 +22,6 @@ public class GenerationCore : MonoBehaviour
     public int width;
     public int height;
 
-    [HideInInspector] public Vector3 startPos;
-    [HideInInspector] public Vector3 endPos;
-    [HideInInspector] public int startPointCode = 99;
-    [HideInInspector] public int endPointCode = 100;
-
     private System.Random _rand;
     private int[,] _map;
 
@@ -42,7 +37,6 @@ public class GenerationCore : MonoBehaviour
 
     public void Init()
     {
-        //Awake(); endPointCode = 100; startPointCode = 99;
         randomSeed = Random.Range(0f, 100f);
         _rand = new System.Random(randomSeed.GetHashCode());
         _map = new int[width, height];
@@ -50,7 +44,7 @@ public class GenerationCore : MonoBehaviour
 
     public void GenerateTerrain()
     {
-        //Init();
+        Init();
 
         Clear();
         foreach (var generator in generators)
@@ -84,16 +78,6 @@ public class GenerationCore : MonoBehaviour
                 if (_map[x, y] == 1)
                 {
                     terrainTilemap.SetTile(tilePos, terrainTile);
-                }
-
-                else if (_map[x, y] == startPointCode)
-                {
-                    startPos = tilePos;
-                }
-
-                else if (_map[x, y] == endPointCode)
-                {
-                    endPos = tilePos;
                 }
 
                 backgroundTilemap.SetTile(tilePos, _backgroundTile);
