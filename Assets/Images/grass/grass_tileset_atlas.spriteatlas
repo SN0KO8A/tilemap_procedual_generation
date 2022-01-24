@@ -122,5 +122,5 @@ SpriteAtlas:
   - grass_6
   - grass_2
   m_RenderDataMap: {}
-  m_Tag: grass_tileset
+  m_Tag: grass_tileset_atlas
   m_IsVariant: 0

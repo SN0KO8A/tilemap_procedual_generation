@@ -15,6 +15,7 @@ public class GenerationCore : MonoBehaviour
     public Tilemap terrainTilemap;
     public Tilemap backgroundTilemap;
     public TileBase terrainTile;
+    public TileBase _decorTile;
     public TileBase _backgroundTile;
 
     [Header("Map Settings")]
@@ -78,6 +79,11 @@ public class GenerationCore : MonoBehaviour
                 if (_map[x, y] == 1)
                 {
                     terrainTilemap.SetTile(tilePos, terrainTile);
+                }
+
+                else if (_map[x, y] == 2)
+                {
+                    terrainTilemap.SetTile(tilePos, _decorTile);
                 }
 
                 backgroundTilemap.SetTile(tilePos, _backgroundTile);
