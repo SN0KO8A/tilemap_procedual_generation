@@ -15,8 +15,8 @@ public class GenerationCore : MonoBehaviour
     public Tilemap terrainTilemap;
     public Tilemap backgroundTilemap;
     public TileBase terrainTile;
-    public TileBase _decorTile;
-    public TileBase _backgroundTile;
+    public TileBase decorTile;
+    public TileBase backgroundTile;
 
     [Header("Map Settings")]
     public float randomSeed = 0f;
@@ -25,6 +25,11 @@ public class GenerationCore : MonoBehaviour
 
     private System.Random _rand;
     private int[,] _map;
+
+    public GenerationCore()
+    {
+        generators = new List<Generator>();
+    }
 
     private void Awake()
     {
@@ -83,10 +88,11 @@ public class GenerationCore : MonoBehaviour
 
                 else if (_map[x, y] == 2)
                 {
-                    terrainTilemap.SetTile(tilePos, _decorTile);
+                    terrainTilemap.SetTile(tilePos, decorTile);
                 }
 
-                backgroundTilemap.SetTile(tilePos, _backgroundTile);
+                if(backgroundTilemap)
+                    backgroundTilemap.SetTile(tilePos, backgroundTile);
             }
         }
     }

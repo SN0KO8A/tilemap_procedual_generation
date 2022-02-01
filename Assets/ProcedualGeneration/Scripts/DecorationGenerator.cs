@@ -9,6 +9,12 @@ public class DecorationGenerator : Generator
     [SerializeField] private Vector2 _decorationSetDistance;
     [SerializeField, Range(0f,100f)] private float _chanceToSpawn;
 
+    public DecorationGenerator(Vector2 decorationSetDistance, float chanceToSpawn)
+    {
+        _decorationSetDistance = decorationSetDistance;
+        _chanceToSpawn = chanceToSpawn;
+    }
+
     public override void Generate(ref int[,] map, System.Random rand)
     {
         base.Generate(ref map, rand);

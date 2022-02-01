@@ -31,20 +31,20 @@ public class MapData : IDatabaseEntity
 [Serializable]
 public class GraphicSettings : IDatabaseEntity
 {
-    public int terrainTileID;
-    public int backgroundTileID;
-    public int decorationTileID;
+    public string terrainTileGUID;
+    public string backgroundTileGUID;
+    public string decorationTileGUID;
 
     public GraphicSettings()
     {
 
     }
 
-    public GraphicSettings(int terrainTileID, int backgroundTileID, int decorationTileID)
+    public GraphicSettings(string terrainTileGUID, string backgroundTileGUID, string decorationTileGUID)
     {
-        this.terrainTileID = terrainTileID;
-        this.backgroundTileID = backgroundTileID;
-        this.decorationTileID = decorationTileID;
+        this.terrainTileGUID = terrainTileGUID;
+        this.backgroundTileGUID = backgroundTileGUID;
+        this.decorationTileGUID = decorationTileGUID;
     }
 
     public int ID { get; set; }
@@ -84,7 +84,7 @@ public class Settings : IDatabaseEntity
 [Serializable]
 public class GlobalSettings : IDatabaseEntity
 {
-    public int seed;
+    public float seed;
     public int width;
     public int height;
 
@@ -92,7 +92,7 @@ public class GlobalSettings : IDatabaseEntity
     {
     }
 
-    public GlobalSettings(int seed, int width, int height)
+    public GlobalSettings(float seed, int width, int height)
     {
         this.seed = seed;
         this.width = width;

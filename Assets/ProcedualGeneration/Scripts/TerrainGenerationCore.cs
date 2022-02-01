@@ -12,11 +12,21 @@ public class TerrainGenerationCore : Generator
     [Tooltip("More iterations - more quality, but more time for generation")]
     [SerializeField] private int _iterations = 3;
     [SerializeField] private bool _edgesAreWalls = true;
-    [SerializeField] private bool _createWay = true;
+    [SerializeField] private bool _hasWay = true;
     [SerializeField] private int _heightOfWay = 3;
 
     private int startY;
     private int newY;
+
+    public TerrainGenerationCore(Vector2Int terrainOffset, float fillAmount, int iterations, bool edgesAreWalls, bool createWay, int heightOfWay)
+    {
+        _terrainOffset = terrainOffset;
+        _fillAmount = fillAmount;
+        _iterations = iterations;
+        _edgesAreWalls = edgesAreWalls;
+        _hasWay = createWay;
+        _heightOfWay = heightOfWay;
+    }
 
     public override void Generate(ref int [,] map, System.Random rand)
     {
@@ -24,7 +34,7 @@ public class TerrainGenerationCore : Generator
 
         InitRandomMap();
 
-        if(_createWay)
+        if(_hasWay)
             CreateWay();
 
         MooreAlgorithm();
