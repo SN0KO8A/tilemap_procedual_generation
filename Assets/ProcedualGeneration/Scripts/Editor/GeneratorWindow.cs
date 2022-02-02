@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -182,6 +183,8 @@ public class GeneratorWindow : EditorWindow
             InitGenerators();
             _generationCore.Generate();
             _globalSettings.seed = _generationCore.randomSeed;
+
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
         //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
