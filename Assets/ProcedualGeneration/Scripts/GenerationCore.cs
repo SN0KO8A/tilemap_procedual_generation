@@ -31,6 +31,14 @@ public class GenerationCore : MonoBehaviour
         generators = new List<Generator>();
     }
 
+    public GenerationCore(int width, int height)
+    {
+        generators = new List<Generator>();
+
+        this.width = width;
+        this.height = height;
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -48,7 +56,7 @@ public class GenerationCore : MonoBehaviour
         _map = new int[width, height];
     }
 
-    public void GenerateTerrain()
+    public void Generate()
     {
         Init();
 
@@ -111,7 +119,7 @@ public class GenerationCoreEditor : Editor
 
         if (GUILayout.Button("Generate Terrain"))
         {
-            generationCore.GenerateTerrain();
+            generationCore.Generate();
         }
 
         if (GUILayout.Button("Clear"))

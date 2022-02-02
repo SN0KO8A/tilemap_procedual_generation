@@ -110,8 +110,7 @@ public class GlobalSettings : IDatabaseEntity
 [Serializable]
 public class TerrainSettings : IDatabaseEntity
 {
-    public int terrainOffset_x;
-    public int terrainOffset_y;
+    public Vector2Int terrainOffset;
     public float fillAmount;
     public int iterations;
     public bool edgesAreWalls;
@@ -123,10 +122,9 @@ public class TerrainSettings : IDatabaseEntity
 
     }
 
-    public TerrainSettings(int terrainOffset_x, int terrainOffset_y, float fillAmount, int iterations, bool edgesAreWalls, bool hasWay, int heightOfWay)
+    public TerrainSettings(Vector2Int terrainOffset, float fillAmount, int iterations, bool edgesAreWalls, bool hasWay, int heightOfWay)
     {
-        this.terrainOffset_x = terrainOffset_x;
-        this.terrainOffset_y = terrainOffset_y;
+        this.terrainOffset = terrainOffset;
         this.fillAmount = fillAmount;
         this.iterations = iterations;
         this.edgesAreWalls = edgesAreWalls;
@@ -145,8 +143,7 @@ public class TerrainSettings : IDatabaseEntity
 [Serializable]
 public class DecorationSettings : IDatabaseEntity
 {
-    public int decorationDistance_x;
-    public int decorationDistance_y;
+    public Vector2Int decorationSetArea;
     public float chanceToSpawn;
 
     public DecorationSettings()
@@ -154,10 +151,9 @@ public class DecorationSettings : IDatabaseEntity
 
     }
 
-    public DecorationSettings(int decorationDistance_x, int decorationDistance_y, float chanceToSpawn)
+    public DecorationSettings(Vector2Int decorationSetArea, float chanceToSpawn)
     {
-        this.decorationDistance_x = decorationDistance_x;
-        this.decorationDistance_y = decorationDistance_y;
+        this.decorationSetArea = decorationSetArea;
         this.chanceToSpawn = chanceToSpawn;
     }
 
