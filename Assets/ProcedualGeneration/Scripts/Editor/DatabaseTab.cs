@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 public class DatabaseTab
 {
     private string _databaseQuery;
+    private string _databaseAnswer;
 
     public void DisplayDatabaseTab()
     {
@@ -20,11 +21,14 @@ public class DatabaseTab
     {
         _databaseQuery = EditorGUILayout.TextArea(_databaseQuery, GUILayout.Height(150f));
 
-        if(GUILayout.Button("Input"))
+        if (GUILayout.Button("Input"))
         {
-            Debug.Log("INPUT");
-            Debug.Log(DataBase.ExecuteQuery(_databaseQuery));
+            _databaseAnswer = DataBase.ExecuteQuery(_databaseQuery);
         }
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("Answer: " + _databaseAnswer);
 
         EditorGUILayout.Space();
 

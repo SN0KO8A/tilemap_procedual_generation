@@ -2,6 +2,8 @@ using UnityEngine;
 using System.IO;
 using Mono.Data.Sqlite;
 using System.Data;
+using UnityEditor;
+using System.Threading;
 
 public class DataBase
 {
@@ -13,7 +15,7 @@ public class DataBase
     static DataBase()
     {
         DBPath = GetDatabasePath();
-        UnpackDatabase(DBPath);
+        //UnpackDatabase(DBPath);
     }
 
     private static string GetDatabasePath()
@@ -38,7 +40,65 @@ public class DataBase
 
     public static void GenerateDatabase()
     {
+        EditorUtility.DisplayProgressBar("Creating DB...", "Creating database file", 0f);
         UnpackDatabase(DBPath);
+
+        EditorUtility.DisplayProgressBar("Creating DB...", "Creating tables in the database", 1f);
+        GenerateTables();
+        EditorUtility.ClearProgressBar();
+    }
+
+    public static void GenerateTables()
+    {
+        ExecuteQuery("CREATE TABLE IF NOT EXISTS \"DecorationSettings\" " +
+            "(\"ID\" INTEGER NOT NULL UNIQUE, \"amount\"" +
+            "    INTEGER NOT NULL, \"height_to_spawn\"" +
+            "   INTEGER NOT NULL, \"width_to_spawn\"" +
+            "    INTEGER NOT NULL, PRIMARY KEY(\"ID\"" +
+            " AUTOINCREMENT))");
+
+        ExecuteQuery("CREATE TABLE IF NOT EXISTS \"GlobalSettings\" (" +
+            "   \"ID\"    INTEGER NOT NULL UNIQUE," +
+            "   \"width\" FLOAT NOT NULL," +
+            "   \"height\"    FLOAT NOT NULL," +
+            "   PRIMARY KEY(\"ID\" AUTOINCREMENT))");
+
+        ExecuteQuery("CREATE TABLE IF NOT EXISTS \"TerrainSettings\" " +
+            "(\"ID\"    INTEGER NOT NULL UNIQUE," +
+            " \"terrain_offset_x\"  INTEGER NOT NULL," +
+            " \"terrain_offset_y\"  INTEGER NOT NULL," +
+            " \"fill_amount\"   INTEGER NOT NULL," +
+            " \"moor_iterations\"   INTEGER NOT NULL," +
+            " \"edges_are_walls\"   BOOL NOT NULL," +
+            " \"has_way\"   BOOL NOT NULL," +
+            " \"height_of_way\" INTEGER," +
+            " PRIMARY KEY(\"ID\" AUTOINCREMENT))");
+
+        ExecuteQuery("CREATE TABLE IF NOT EXISTS \"Settings\" " +
+            "(\"ID\"    INTEGER NOT NULL UNIQUE," +
+            "\"global_settings\"   INTEGER NOT NULL," +
+            "\"terrain_settings\"  INTEGER NOT NULL," +
+            "\"decoration_settings\"   INTEGER NOT NULL," +
+            "FOREIGN KEY(\"global_settings\") REFERENCES \"GlobalSettings\"(\"ID\")," +
+            "FOREIGN KEY(\"terrain_settings\") REFERENCES \"TerrainSettings\"(\"ID\")," +
+            "FOREIGN KEY(\"decoration_settings\") REFERENCES \"DecorationSettings\"(\"ID\")," +
+            "PRIMARY KEY(\"ID\" AUTOINCREMENT))");
+
+        ExecuteQuery("CREATE TABLE IF NOT EXISTS \"Graphic\" " +
+            "(\"ID\"    INTEGER NOT NULL UNIQUE," +
+            "\"rule_tile_id\"  CHAR(32) NOT NULL," +
+            "\"background_tile_id\"    CHAR(32) NOT NULL," +
+            "\"decoration_tile_id\"    CHAR(32) NOT NULL," +
+            "PRIMARY KEY(\"ID\" AUTOINCREMENT))");
+
+        ExecuteQuery("CREATE TABLE IF NOT EXISTS \"Map\" " +
+            "(\"ID\"    INTEGER NOT NULL UNIQUE," +
+            "\"seed\"  FLOAT NOT NULL," +
+            "\"graphic\"   INTEGER NOT NULL," +
+            "\"settings\"  INTEGER NOT NULL," +
+            "FOREIGN KEY(\"graphic\") REFERENCES \"Graphic\"(\"ID\")," +
+            "FOREIGN KEY(\"settings\") REFERENCES \"Settings\"(\"ID\")," +
+            "PRIMARY KEY(\"ID\" AUTOINCREMENT))");
     }
 
     public static void CloseConnection()
@@ -55,7 +115,7 @@ public class DataBase
         object answer = command.ExecuteScalar();
         CloseConnection();
 
-        if(answer != null)
+        if (answer != null)
             return answer.ToString();
         else
             return null;
