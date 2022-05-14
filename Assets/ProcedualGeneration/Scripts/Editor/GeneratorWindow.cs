@@ -8,6 +8,8 @@ using UnityEngine.Tilemaps;
 
 public class GeneratorWindow : EditorWindow
 {
+    public static GeneratorWindow Instance;
+
     [SerializeField] private GeneratorTab _generatorTab;
     [SerializeField] private DatabaseTab _databaseTab;
     [SerializeField] private TabState _tabState;
@@ -15,12 +17,17 @@ public class GeneratorWindow : EditorWindow
     private string[] _tabs = { "Generator", "Database", "Database DEBUG" };
     private int _tabSelected = -1;
 
+    public GeneratorTab GeneratorTab { get => _generatorTab; set => _generatorTab = value; }
+    public DatabaseTab DatabaseTab { get => _databaseTab; set => _databaseTab = value; }
+
     [MenuItem("Tools/Tilemap Generator", false, 45)]
     public static void OpenWindow()
     {
         GeneratorWindow window = GetWindow<GeneratorWindow>();
         window.Init();
         window.Show();
+
+        Instance = window;
     }
 
     public void OnGUI()
@@ -28,28 +35,7 @@ public class GeneratorWindow : EditorWindow
         EditorGUILayout.BeginHorizontal();
         _tabSelected = GUILayout.Toolbar(_tabSelected, _tabs);
         _tabState = (TabState)_tabSelected;
-        //if (_tabState != TabState.GENERATOR)
-        //{
-        //    if (GUILayout.Button("Generator tab"))
-        //    {
-        //        _tabState = TabState.GENERATOR;
-        //    }
-        //}
 
-        //else
-        //{
-        //    EditorGUILayout.LabelField("Generator tab", EditorStyles.);
-        //}
-
-        //if(GUILayout.Button("Database tab"))
-        //{
-        //    _tabState = TabState.DATABASE;
-        //}
-
-        //if (GUILayout.Button("Database DEBUG tab"))
-        //{
-        //    _tabState = TabState.DATABASE_DEBUG;
-        //}
         EditorGUILayout.EndHorizontal();
 
         switch (_tabState)
@@ -72,6 +58,7 @@ public class GeneratorWindow : EditorWindow
     public void Init()
     {
         _generatorTab = new GeneratorTab();
+        _databaseTab = new DatabaseTab();
         _generatorTab.Init();
     }
 

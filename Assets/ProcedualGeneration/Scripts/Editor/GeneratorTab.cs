@@ -21,6 +21,8 @@ public class GeneratorTab
     [SerializeField] private TerrainGenerationCore _terrainGenerator;
     [SerializeField] private DecorationGenerator _decorationGenerator;
 
+    [SerializeField] private MapData _map;
+
     [SerializeField] private GlobalSettings _globalSettings;
     [SerializeField] private GraphicSettings _graphicSettings;
     [SerializeField] private TerrainSettings _terrainSettings;
@@ -32,17 +34,36 @@ public class GeneratorTab
 
     public void Init()
     {
-        if (_globalSettings == null)
-            _globalSettings = new GlobalSettings();
+        _map = new MapData();
 
-        if (_graphicSettings == null)
-            _graphicSettings = new GraphicSettings();
+        _globalSettings = new GlobalSettings();
+        _graphicSettings = new GraphicSettings();
+        _terrainSettings = new TerrainSettings();
+        _decorationSettings = new DecorationSettings();
 
-        if (_terrainSettings == null)
-            _terrainSettings = new TerrainSettings();
+        _map.Settings.GlobalSettings = _globalSettings;
+        _map.Settings.TerrainSettings = _terrainSettings;
+        _map.Settings.DecorationSettings = _decorationSettings;
+        _map.GraphicSettings = _graphicSettings;
+    }
 
-        if (_decorationSettings == null)
-            _decorationSettings = new DecorationSettings();
+    public void Init(MapData mapData)
+    {
+        _map = mapData;
+
+        _globalSettings = mapData.Settings.GlobalSettings;
+        _graphicSettings = mapData.GraphicSettings;
+        _terrainSettings = mapData.Settings.TerrainSettings;
+
+        string terrainTileAssetPath = AssetDatabase.GUIDToAssetPath(_graphicSettings.TerrainTileGUID);
+        string backgroundTileAssetPath = AssetDatabase.GUIDToAssetPath(_graphicSettings.BackgroundTileGUID);
+        string decorationTileAssetPath = AssetDatabase.GUIDToAssetPath(_graphicSettings.DecorationTileGUID);
+
+        _terrainTile = AssetDatabase.LoadAssetAtPath<TileBase>(terrainTileAssetPath);
+        _backgroundTile = AssetDatabase.LoadAssetAtPath<TileBase>(backgroundTileAssetPath);
+        _decorationTile = AssetDatabase.LoadAssetAtPath<TileBase>(decorationTileAssetPath);
+
+        _decorationSettings = mapData.Settings.DecorationSettings;
     }
 
     public void DrawGeneratorWindow()
@@ -65,6 +86,7 @@ public class GeneratorTab
         DisplayTerrainSettings();
         DisplayDecorationSettings();
         DisplayGenerateButton();
+        DisplaySaveToDataBaseButton();
 
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndScrollView();
@@ -72,24 +94,33 @@ public class GeneratorTab
 
     public void InitGenerators()
     {
-        _generationCore = new GenerationCore(_globalSettings.width, _globalSettings.height);
-        _generationCore.terrainTilemap = _terrainTilemap;
-        _generationCore.backgroundTilemap = _backgroundTilemap;
+        if (_generationCore == null)
+        {
+            _generationCore = new GenerationCore(_globalSettings.Width, _globalSettings.Height);
+            _generationCore.terrainTilemap = _terrainTilemap;
+            _generationCore.backgroundTilemap = _backgroundTilemap;
 
-        _generationCore.terrainTile = _terrainTile;
-        _generationCore.backgroundTile = _backgroundTile;
-        _generationCore.decorTile = _decorationTile;
+            _generationCore.terrainTile = _terrainTile;
+            _generationCore.backgroundTile = _backgroundTile;
+            _generationCore.decorTile = _decorationTile;
+        }
 
-        _terrainGenerator = new TerrainGenerationCore(
-            _terrainSettings.terrainOffset,
-            _terrainSettings.fillAmount,
-            _terrainSettings.iterations,
-            _terrainSettings.edgesAreWalls,
-            _terrainSettings.hasWay,
-            _terrainSettings.heightOfWay
-            );
+        if (_terrainGenerator == null)
+        {
+            _terrainGenerator = new TerrainGenerationCore(
+                _terrainSettings.TerrainOffset,
+                _terrainSettings.FillAmount,
+                _terrainSettings.Iterations,
+                _terrainSettings.EdgesAreWalls,
+                _terrainSettings.HasWay,
+                _terrainSettings.HeightOfWay
+                );
+        }
 
-        _decorationGenerator = new DecorationGenerator(_decorationSettings.decorationSetArea, _decorationSettings.chanceToSpawn);
+        if (_decorationGenerator == null)
+        {
+            _decorationGenerator = new DecorationGenerator(_decorationSettings.DecorationSetArea, _decorationSettings.ChanceToSpawn);
+        }
 
         _generationCore.generators.Add(_terrainGenerator);
         _generationCore.generators.Add(_decorationGenerator);
@@ -104,13 +135,13 @@ public class GeneratorTab
         _decorationTile = (TileBase)EditorGUILayout.ObjectField("Decoration tile", _decorationTile, typeof(TileBase), false);
 
         if (_terrainTile != null)
-            _graphicSettings.terrainTileGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_terrainTile));
+            _graphicSettings.TerrainTileGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_terrainTile));
 
         if (_backgroundTile != null)
-            _graphicSettings.backgroundTileGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_backgroundTile));
+            _graphicSettings.BackgroundTileGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_backgroundTile));
 
         if (_decorationTile != null)
-            _graphicSettings.decorationTileGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_decorationTile));
+            _graphicSettings.DecorationTileGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_decorationTile));
 
         if (_debugMode)
         {
@@ -118,9 +149,9 @@ public class GeneratorTab
 
             EditorGUILayout.Space();
             EditorGUI.BeginDisabledGroup(true);
-            _graphicSettings.terrainTileGUID = EditorGUILayout.TextField("DEBUG: Terrain tile GUID", _graphicSettings.terrainTileGUID, GUILayout.MinWidth(100f));
-            _graphicSettings.backgroundTileGUID = EditorGUILayout.TextField("DEBUG: Background tile GUID", _graphicSettings.backgroundTileGUID, GUILayout.MinWidth(100f));
-            _graphicSettings.decorationTileGUID = EditorGUILayout.TextField("DEBUG: Decoration tile GUID", _graphicSettings.decorationTileGUID, GUILayout.MinWidth(100f));
+            _graphicSettings.TerrainTileGUID = EditorGUILayout.TextField("DEBUG: Terrain tile GUID", _graphicSettings.TerrainTileGUID, GUILayout.MinWidth(100f));
+            _graphicSettings.BackgroundTileGUID = EditorGUILayout.TextField("DEBUG: Background tile GUID", _graphicSettings.BackgroundTileGUID, GUILayout.MinWidth(100f));
+            _graphicSettings.DecorationTileGUID = EditorGUILayout.TextField("DEBUG: Decoration tile GUID", _graphicSettings.DecorationTileGUID, GUILayout.MinWidth(100f));
             EditorGUI.EndDisabledGroup();
 
             EditorGUIUtility.labelWidth = _defaultLabelWidth;
@@ -133,14 +164,14 @@ public class GeneratorTab
     {
         EditorGUILayout.LabelField("Global settings", EditorStyles.boldLabel);
 
-        _globalSettings.width = EditorGUILayout.IntField("Width", _globalSettings.width);
-        _globalSettings.height = EditorGUILayout.IntField("Height", _globalSettings.height);
+        _globalSettings.Width = EditorGUILayout.IntField("Width", _globalSettings.Width);
+        _globalSettings.Height = EditorGUILayout.IntField("Height", _globalSettings.Height);
 
         if (_debugMode)
         {
             EditorGUILayout.Space();
             EditorGUI.BeginDisabledGroup(true);
-            _globalSettings.seed = EditorGUILayout.FloatField("DEBUG: Random seed", _globalSettings.seed);
+            _map.Seed = EditorGUILayout.FloatField("DEBUG: Random seed", _map.Seed);
             EditorGUI.EndDisabledGroup();
         }
 
@@ -151,18 +182,18 @@ public class GeneratorTab
     {
         EditorGUILayout.LabelField("Terrain settings", EditorStyles.boldLabel);
 
-        _terrainSettings.edgesAreWalls = EditorGUILayout.Toggle("Edges are walls", _terrainSettings.edgesAreWalls);
-        _terrainSettings.hasWay = EditorGUILayout.Toggle("Map has a way", _terrainSettings.hasWay);
+        _terrainSettings.EdgesAreWalls = EditorGUILayout.Toggle("Edges are walls", _terrainSettings.EdgesAreWalls);
+        _terrainSettings.HasWay = EditorGUILayout.Toggle("Map has a way", _terrainSettings.HasWay);
         EditorGUILayout.Space();
 
-        _terrainSettings.terrainOffset = EditorGUILayout.Vector2IntField("Terrain offset", _terrainSettings.terrainOffset);
-        _terrainSettings.fillAmount = EditorGUILayout.Slider("Fill amount map", _terrainSettings.fillAmount, 0f, 100f);
+        _terrainSettings.TerrainOffset = EditorGUILayout.Vector2IntField("Terrain offset", _terrainSettings.TerrainOffset);
+        _terrainSettings.FillAmount = EditorGUILayout.Slider("Fill amount map", _terrainSettings.FillAmount, 0f, 100f);
 
         GUIContent iteraionFieldContent = new GUIContent("Iterations of algorithm", "The more of iteration of algroithm, the better quality of generation");
-        _terrainSettings.iterations = EditorGUILayout.IntField(iteraionFieldContent, _terrainSettings.iterations);
+        _terrainSettings.Iterations = EditorGUILayout.IntField(iteraionFieldContent, _terrainSettings.Iterations);
 
-        if (_terrainSettings.hasWay)
-            _terrainSettings.heightOfWay = EditorGUILayout.IntField("Height of the way", _terrainSettings.iterations);
+        if (_terrainSettings.HasWay)
+            _terrainSettings.HeightOfWay = EditorGUILayout.IntField("Height of the way", _terrainSettings.Iterations);
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
     }
@@ -171,8 +202,8 @@ public class GeneratorTab
     {
         EditorGUILayout.LabelField("Decoration settings", EditorStyles.boldLabel);
 
-        _decorationSettings.decorationSetArea = EditorGUILayout.Vector2IntField("Decoration set area", _decorationSettings.decorationSetArea);
-        _decorationSettings.chanceToSpawn = EditorGUILayout.Slider("Chance to spawn", _decorationSettings.chanceToSpawn, 0f, 100f);
+        _decorationSettings.DecorationSetArea = EditorGUILayout.Vector2IntField("Decoration set area", _decorationSettings.DecorationSetArea);
+        _decorationSettings.ChanceToSpawn = EditorGUILayout.Slider("Chance to spawn", _decorationSettings.ChanceToSpawn, 0f, 100f);
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
     }
@@ -183,9 +214,22 @@ public class GeneratorTab
         {
             InitGenerators();
             _generationCore.Generate();
-            _globalSettings.seed = _generationCore.randomSeed;
+            _map.Seed = _generationCore.randomSeed;
 
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        }
+
+        //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        EditorGUILayout.Space();
+    }
+
+    private void DisplaySaveToDataBaseButton()
+    {
+        if (GUILayout.Button("Save to database"))
+        {
+            _map.ToDatabase();
+            Debug.Log($"Map saved into databse with ID: {_map.ID}");
+            Init();
         }
 
         //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);

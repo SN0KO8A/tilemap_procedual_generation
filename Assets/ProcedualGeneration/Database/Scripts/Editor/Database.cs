@@ -5,14 +5,17 @@ using System.Data;
 using UnityEditor;
 using System.Threading;
 
-public class DataBase
+public class Database
 {
     private const string fileName = "db.bytes";
     private static string DBPath;
     private static SqliteConnection connection;
     private static SqliteCommand command;
 
-    static DataBase()
+    public bool HasConnection => connection != null;
+
+
+    static Database()
     {
         DBPath = GetDatabasePath();
         //UnpackDatabase(DBPath);
@@ -31,7 +34,7 @@ public class DataBase
         File.WriteAllBytes(toPath, reader.bytes);
     }
 
-    private static void OpenConnection()
+    public static void OpenConnection()
     {
         connection = new SqliteConnection("Data Source=" + DBPath);
         command = new SqliteCommand(connection);
@@ -51,8 +54,8 @@ public class DataBase
     public static void GenerateTables()
     {
         ExecuteQuery("CREATE TABLE IF NOT EXISTS \"DecorationSettings\" " +
-            "(\"ID\" INTEGER NOT NULL UNIQUE, \"amount\"" +
-            "    INTEGER NOT NULL, \"height_to_spawn\"" +
+            "(\"ID\" INTEGER NOT NULL UNIQUE, \"chance_to_spawn\"" +
+            "    FLOAT NOT NULL, \"height_to_spawn\"" +
             "   INTEGER NOT NULL, \"width_to_spawn\"" +
             "    INTEGER NOT NULL, PRIMARY KEY(\"ID\"" +
             " AUTOINCREMENT))");
@@ -110,10 +113,23 @@ public class DataBase
     public static string ExecuteQuery(string query)
     {
         OpenConnection();
+
         command.CommandText = query;
-        command.ExecuteNonQuery();
+        //command.ExecuteNonQuery();
         object answer = command.ExecuteScalar();
         CloseConnection();
+
+        if (answer != null)
+            return answer.ToString();
+        else
+            return null;
+    }
+
+    public static string ExecuteQuerryWithoutConnection(string query)
+    {
+        command.CommandText = query;
+        //command.ExecuteNonQuery();
+        object answer = command.ExecuteScalar();
 
         if (answer != null)
             return answer.ToString();

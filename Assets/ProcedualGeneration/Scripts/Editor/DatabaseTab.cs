@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -14,7 +15,13 @@ public class DatabaseTab
 
     public void DisplayDatabaseTab()
     {
+        if(GUILayout.Button("Load"))
+        {
+            //DataTable decorationTable = Database.GetTable("SELECT * FROM DecorationSettings;");
+            //DecorationSettings decorationSettings = DecorationSettings.FromDataTable(decorationTable, 0);
 
+            //GeneratorWindow.Instance.GeneratorTab.Init(new GlobalSettings(), new GraphicSettings(), new TerrainSettings(), decorationSettings);
+        }
     }
 
     public void DisplayDatabaseDebugTab()
@@ -23,18 +30,35 @@ public class DatabaseTab
 
         if (GUILayout.Button("Input"))
         {
-            _databaseAnswer = DataBase.ExecuteQuery(_databaseQuery);
+            _databaseAnswer = Database.ExecuteQuery(_databaseQuery);
+
+            if (string.IsNullOrEmpty(_databaseAnswer))
+            {
+                Debug.Log($"SQL answer: Done!");
+            }
+            else
+            {
+                Debug.Log($"SQL answer: {_databaseAnswer}");
+            }
         }
 
         EditorGUILayout.Space();
-
-        EditorGUILayout.LabelField("Answer: " + _databaseAnswer);
 
         EditorGUILayout.Space();
 
         if (GUILayout.Button("Generate database"))
         {
-            DataBase.GenerateDatabase();
+            Database.GenerateDatabase();
         }
+    }
+
+    public void LoadDataFromDatabase()
+    {
+
+    }
+
+    public void DrawListElement(MapData data)
+    {
+
     }
 }
