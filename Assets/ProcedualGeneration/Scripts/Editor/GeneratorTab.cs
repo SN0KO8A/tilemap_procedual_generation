@@ -66,7 +66,7 @@ public class GeneratorTab
         _decorationSettings = mapData.Settings.DecorationSettings;
     }
 
-    public void DrawGeneratorWindow()
+    public void DisplayGeneratorTab()
     {
         DisplayHeader();
 

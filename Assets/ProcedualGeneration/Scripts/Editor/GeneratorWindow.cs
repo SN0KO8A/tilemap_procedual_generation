@@ -41,7 +41,8 @@ public class GeneratorWindow : EditorWindow
         switch (_tabState)
         {
             case TabState.GENERATOR:
-                _generatorTab.DrawGeneratorWindow();
+                _databaseTab.Initialized = false;
+                _generatorTab.DisplayGeneratorTab();
                 break;
 
             case TabState.DATABASE:
@@ -49,6 +50,7 @@ public class GeneratorWindow : EditorWindow
                 break;
 
             case TabState.DATABASE_DEBUG:
+                _databaseTab.Initialized = false;
                 _databaseTab.DisplayDatabaseDebugTab();
                 break;
         }

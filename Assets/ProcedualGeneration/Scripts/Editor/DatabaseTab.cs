@@ -14,12 +14,20 @@ public class DatabaseTab
     private string _databaseQuery;
     private string _databaseAnswer;
 
+    public bool Initialized = false;
+
     private Vector2 _scroll = Vector2.zero;
 
     private List<MapData> _mapData = new List<MapData>();
 
     public void DisplayDatabaseTab()
     {
+        if (!Initialized)
+        {
+            RefreshMapData();
+            Initialized = true;
+        }
+
         DisplayHeader();
 
         _scroll = EditorGUILayout.BeginScrollView(_scroll, EditorStyles.helpBox, GUILayout.Height(500f));
@@ -32,11 +40,6 @@ public class DatabaseTab
         EditorGUILayout.EndScrollView();
 
         EditorGUILayout.Space();
-
-        if(GUILayout.Button("Update data"))
-        {
-            RefreshMapData();
-        }
     }
 
     public void RefreshMapData()
