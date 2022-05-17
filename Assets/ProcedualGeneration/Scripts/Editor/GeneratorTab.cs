@@ -193,7 +193,7 @@ public class GeneratorTab
         _terrainSettings.Iterations = EditorGUILayout.IntField(iteraionFieldContent, _terrainSettings.Iterations);
 
         if (_terrainSettings.HasWay)
-            _terrainSettings.HeightOfWay = EditorGUILayout.IntField("Height of the way", _terrainSettings.Iterations);
+            _terrainSettings.HeightOfWay = EditorGUILayout.IntField("Height of the way", _terrainSettings.HeightOfWay);
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
     }
