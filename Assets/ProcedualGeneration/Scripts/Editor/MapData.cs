@@ -5,7 +5,7 @@ using System.Data;
 using UnityEngine;
 
 [Serializable]
-public class MapData : IDatabaseEntity
+public class MapData
 {
     private int _id;
     private float _seed;
@@ -30,12 +30,12 @@ public class MapData : IDatabaseEntity
         this._graphicSettings = graphicSettings;
         this._settings = settings;
 
-        _settings = new Settings();
-        _graphicSettings = new GraphicSettings();
+        //_settings = new Settings();
+        //_graphicSettings = new GraphicSettings();
 
-        _settings.TerrainSettings = new TerrainSettings();
-        _settings.GlobalSettings = new GlobalSettings();
-        _settings.DecorationSettings = new DecorationSettings();
+        //_settings.TerrainSettings = new TerrainSettings();
+        //_settings.GlobalSettings = new GlobalSettings();
+        //_settings.DecorationSettings = new DecorationSettings();
     }
 
     public int ID { get => _id; set => _id = value; }
@@ -61,7 +61,7 @@ public class MapData : IDatabaseEntity
         MapData mapData = new MapData();
 
         mapData.ID = int.Parse(dataRow["ID"].ToString());
-        mapData.Seed = int.Parse(dataRow["seed"].ToString());
+        mapData.Seed = float.Parse(dataRow["seed"].ToString());
 
         int graphicID = int.Parse(dataRow["graphic"].ToString());
         int settingsID = int.Parse(dataRow["settings"].ToString());
@@ -99,7 +99,7 @@ public class MapData : IDatabaseEntity
 }
 
 [Serializable]
-public class GraphicSettings : IDatabaseEntity
+public class GraphicSettings
 {
     private int _id;
     private string _terrainTileGUID;
@@ -163,7 +163,7 @@ public class GraphicSettings : IDatabaseEntity
 }
 
 [Serializable]
-public class Settings : IDatabaseEntity
+public class Settings
 {
     private int _id;
     private GlobalSettings _globalSettings;
@@ -173,6 +173,9 @@ public class Settings : IDatabaseEntity
     public Settings()
     {
         this._id = -1;
+        this._globalSettings = new GlobalSettings();
+        this._terrainSettings = new TerrainSettings();
+        this._decorationSettings = new DecorationSettings();
     }
 
     public Settings(GlobalSettings globalSettings, TerrainSettings terrainSettings, DecorationSettings decorationSettings, int ID = -1)
@@ -250,7 +253,7 @@ public class Settings : IDatabaseEntity
 }
 
 [Serializable]
-public class GlobalSettings : IDatabaseEntity
+public class GlobalSettings
 {
     private int _id;
     private int _width;
@@ -259,6 +262,8 @@ public class GlobalSettings : IDatabaseEntity
     public GlobalSettings()
     {
         this._id = -1;
+        this._width = 50;
+        this._height = 50;
     }
 
     public GlobalSettings(int width, int height, int ID = -1)
@@ -310,7 +315,7 @@ public class GlobalSettings : IDatabaseEntity
 }
 
 [Serializable]
-public class TerrainSettings : IDatabaseEntity
+public class TerrainSettings
 {
     private int _id;
     private Vector2Int _terrainOffset;
@@ -323,6 +328,11 @@ public class TerrainSettings : IDatabaseEntity
     public TerrainSettings()
     {
         this._id = -1;
+        this._terrainOffset = new Vector2Int(5, 5);
+        this._fillAmount = 40f;
+        this._iterations = 5;
+        this._edgesAreWalls = true;
+        this._hasWay = false;
     }
 
     public TerrainSettings(Vector2Int terrainOffset, float fillAmount, int iterations, bool edgesAreWalls, bool hasWay, int heightOfWay, int ID = -1)
@@ -392,7 +402,7 @@ public class TerrainSettings : IDatabaseEntity
 }
 
 [Serializable]
-public class DecorationSettings : IDatabaseEntity
+public class DecorationSettings
 {
     private Vector2Int _decorationSetArea;
     private float _chanceToSpawn;
@@ -401,6 +411,8 @@ public class DecorationSettings : IDatabaseEntity
     public DecorationSettings()
     {
         _id = -1;
+        _decorationSetArea = new Vector2Int(1,1);
+        _chanceToSpawn = 50f;
     }
 
     public DecorationSettings(Vector2Int decorationSetArea, float chanceToSpawn, int ID = -1)

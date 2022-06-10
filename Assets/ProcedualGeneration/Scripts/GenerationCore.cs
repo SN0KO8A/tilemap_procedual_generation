@@ -70,8 +70,13 @@ public class GenerationCore : MonoBehaviour
 
     public void Clear()
     {
-        terrainTilemap.ClearAllTiles();
-        backgroundTilemap.ClearAllTiles();
+        if (terrainTile)
+            terrainTilemap.ClearAllTiles();
+        else
+            Debug.LogError("Tilemap hasn't been set! Please set tilemap into the field in the editor");
+
+        if(backgroundTile)
+            backgroundTilemap.ClearAllTiles();
 
         for (int x = 0; x < width; x++)
         {

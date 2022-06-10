@@ -20,7 +20,7 @@ public class GeneratorWindow : EditorWindow
     public GeneratorTab GeneratorTab { get => _generatorTab; set => _generatorTab = value; }
     public DatabaseTab DatabaseTab { get => _databaseTab; set => _databaseTab = value; }
 
-    [MenuItem("Tools/Tilemap Generator", false, 45)]
+    [MenuItem("Window/2D/Tilemap Generator", false, 1)]
     public static void OpenWindow()
     {
         GeneratorWindow window = GetWindow<GeneratorWindow>();

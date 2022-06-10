@@ -49,11 +49,11 @@ public class GeneratorTab
 
     public void Init(MapData mapData)
     {
-        _map = mapData;
+        _map = new MapData(mapData.Seed, mapData.GraphicSettings, mapData.Settings);
 
-        _globalSettings = mapData.Settings.GlobalSettings;
-        _graphicSettings = mapData.GraphicSettings;
-        _terrainSettings = mapData.Settings.TerrainSettings;
+        _globalSettings = _map.Settings.GlobalSettings;
+        _graphicSettings = _map.GraphicSettings;
+        _terrainSettings = _map.Settings.TerrainSettings;
 
         string terrainTileAssetPath = AssetDatabase.GUIDToAssetPath(_graphicSettings.TerrainTileGUID);
         string backgroundTileAssetPath = AssetDatabase.GUIDToAssetPath(_graphicSettings.BackgroundTileGUID);
@@ -63,7 +63,7 @@ public class GeneratorTab
         _backgroundTile = AssetDatabase.LoadAssetAtPath<TileBase>(backgroundTileAssetPath);
         _decorationTile = AssetDatabase.LoadAssetAtPath<TileBase>(decorationTileAssetPath);
 
-        _decorationSettings = mapData.Settings.DecorationSettings;
+        _decorationSettings = _map.Settings.DecorationSettings;
     }
 
     public void DisplayGeneratorTab()
